@@ -24,7 +24,10 @@ namespace DGJv3.InternalModule
             {
                 // api.Request(CloudMusicApiProviders.SongUrl,
                 //     new Dictionary<string, string> { { "id", songInfo.SongId } }, out var response);
-                return $"https://music.163.com/song/media/outer/url?id={songInfo.SongId}.mp3";
+                var response = Fetch(API_PROTOCOL, API_HOST,
+                    API_PATH + $"/song/enhance/download/url?id={songInfo.SongId}&ids=[{songInfo.SongId}]&br={songInfo.SongId}");
+                var json = JObject.Parse(response);
+                return json["data"]["url"].ToString();
             }
             catch (Exception ex)
             {
